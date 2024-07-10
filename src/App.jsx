@@ -23,13 +23,13 @@ const App = () => {
 
   // Toggle Function
   const toggleComplete = (id) => {
-    setTodos((prev) => {
-      prev.map((prevTodo) => {
+    setTodos((prev) =>
+      prev.map((prevTodo) =>
         prevTodo.id === id
           ? { ...prevTodo, completed: !prevTodo.completed }
-          : prevTodo;
-      });
-    });
+          : prevTodo
+      )
+    );
   };
 
   // While Loading

@@ -11,7 +11,7 @@ function TodoItem({ todo }) {
     setIsTodoEditable(false);
   };
 
-  const toggleCompleted = (todo) => {
+  const toggleCompleted = () => {
     toggleComplete(todo.id);
   };
 
@@ -37,6 +37,7 @@ function TodoItem({ todo }) {
         onChange={(e) => setTodoMsg(e.target.value)}
         readOnly={!isTodoEditable}
       />
+
       {/* Edit, Save Button */}
       <button
         className="inline-flex w-8 h-8 rounded-lg text-sm border border-black/10 justify-center items-center bg-gray-50 hover:bg-gray-100 shrink-0 disabled:opacity-50"
