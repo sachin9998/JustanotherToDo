@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import { TodoProvider } from "./contexts/TodoContext";
+import { TodoForm, TodoItem } from "./components";
 
 const App = () => {
   const [todos, setTodos] = useState([]);
@@ -17,35 +18,33 @@ const App = () => {
   };
 
   const deleteTodo = (id) => {
-    setTodos((prev) => {
-      prev.filter((prevTodo) => {
-        return prevTodo.id !== id;
-      });
-    }); 
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
   };
 
   // Toggle Function
   const toggleComplete = (id) => {
     setTodos((prev) => {
       prev.map((prevTodo) => {
-        prevTodo.id === id ? {...prevTodo, completed: !prevTodo.completed} : prevTodo;
+        prevTodo.id === id
+          ? { ...prevTodo, completed: !prevTodo.completed }
+          : prevTodo;
       });
     });
   };
 
-
-  // While Loading application
+  // While Loading
   useEffect(() => {
-
     // Using local storage to store the data.
-    const todos = localStorage.getItem("todos");
+    const todos = JSON.parse(localStorage.getItem("todos"));
 
     if (todos && todos.length > 0) {
       setTodos(todos);
     }
-  
-  }, [])
-  
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
   return (
     <TodoProvider
@@ -57,10 +56,16 @@ const App = () => {
             Manage Your Todos
           </h1>
 
-          <div className="mb-4">{/* Todo form goes here */}</div>
+          <div className="mb-4">
+            <TodoForm />
+          </div>
 
           <div className="flex flex-wrap gap-y-3">
-            {/*Loop and Add TodoItem here */}
+            {todos.map((todo) => (
+              <div key={todo.id} className="w-full">
+                <TodoItem todo={todo} />
+              </div>
+            ))}
           </div>
         </div>
       </div>
